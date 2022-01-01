@@ -5,6 +5,8 @@ import { Center, Box } from "@chakra-ui/react"
 
 import Seo from "../components/Seo"
 import BrandLogo from "../components/BrandLogo"
+import DeliverablesSection from "../components/DeliverablesSection"
+import FooterSection from "../components/FooterSection"
 
 const IndexPage: FC = () => {
   return (
@@ -30,6 +32,8 @@ const IndexPage: FC = () => {
           <BrandLogo />
         </Box>
       </Center>
+      <DeliverablesSection />
+      <FooterSection />
     </>
   )
 }
