@@ -1,5 +1,7 @@
 module.exports = {
-  siteMetadata: {},
+  siteMetadata: {
+    siteUrl: "https://s-works.t28.dev",
+  },
   plugins: [
     {
       resolve: "@chakra-ui/gatsby-plugin",
@@ -26,8 +28,6 @@ module.exports = {
       },
     },
     `gatsby-plugin-svgr`,
-    // this (optional) plugin enables Progressive Web App + Offline functionality
-    // To learn more, visit: https://gatsby.dev/offline
-    // `gatsby-plugin-offline`,
+    `gatsby-plugin-sitemap`,
   ],
 }
