@@ -29,5 +29,11 @@ module.exports = {
     },
     `gatsby-plugin-svgr`,
     `gatsby-plugin-sitemap`,
+    {
+      resolve: `gatsby-plugin-google-gtag`,
+      options: {
+        trackingIds: ["G-HWSMW4E5D8"],
+      },
+    },
   ],
 }
