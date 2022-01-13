@@ -50,7 +50,7 @@ const ResultList = () => {
         links={[
           {
             label: "企画告知ツイート",
-            href: "https://chakra-ui.com",
+            href: "https://twitter.com/LoveLive_staff/status/1476768943352463362?s=20",
             type: "twitter",
           },
           {
