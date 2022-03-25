@@ -1,6 +1,6 @@
 /** @jsx jsx */
-import React, { useState, MouseEvent, FC, useMemo } from "react"
-import { graphql, Link as GatsbyLink, PageProps } from "gatsby"
+import React, { FC } from "react"
+import { graphql, PageProps } from "gatsby"
 import { MDXRenderer } from "gatsby-plugin-mdx"
 import { GatsbyImage, getImage, IGatsbyImageData } from "gatsby-plugin-image"
 
@@ -9,6 +9,7 @@ import { Stack, Box, Icon, Heading, Button } from "@chakra-ui/react"
 import { FaTwitter as TwitterIcon } from "react-icons/fa"
 import { FiExternalLink as ExternalLinkIcon } from "react-icons/fi"
 
+import Seo from "../components/Seo"
 import Layout from "../components/Layout"
 import FooterSection from "../components/FooterSection"
 import LogoLink from "../components/LogoLink"
@@ -61,9 +62,13 @@ const linkIcons = {
   twitter: TwitterIcon,
 } as const
 
-const AchievementPageTemplate: FC<PageProps<any>> = ({ data, location }) => {
-  const { mdx } = data
-  const body = mdx.body
+const AchievementPageTemplate: FC<PageProps<any>> = ({ data }) => {
+  const {
+    mdx: { body, excerpt, frontmatter },
+    site: {
+      siteMetadata: { siteTitle },
+    },
+  } = data
   const {
     title,
     date,
@@ -72,12 +77,24 @@ const AchievementPageTemplate: FC<PageProps<any>> = ({ data, location }) => {
   }: {
     title: string
     date: string
-    heroImage: IGatsbyImageData
+    heroImage: {
+      childImageSharp: {
+        gatsbyImageData: IGatsbyImageData
+        fluid: {
+          src: string
+        }
+      }
+    }
     links: { label: string; href: string; type: keyof typeof linkIcons }[]
-  } = mdx.frontmatter
+  } = frontmatter
 
   return (
     <Layout>
+      <Seo
+        title={`${title} | ${siteTitle}`}
+        description={excerpt}
+        ogpImagePath={heroImage.childImageSharp.fluid.src}
+      />
       <Global styles={pageStyle} />
       <Box
         paddingX={3}
@@ -89,7 +106,7 @@ const AchievementPageTemplate: FC<PageProps<any>> = ({ data, location }) => {
             <LogoLink />
           </Box>
           <GatsbyImage
-            image={getImage(heroImage) as IGatsbyImageData}
+            image={heroImage.childImageSharp.gatsbyImageData}
             alt={"article hero image"}
           />
           <Box as={"main"}>
@@ -130,12 +147,12 @@ export const pageQuery = graphql`
   query AchievementPage($id: String!) {
     site {
       siteMetadata {
-        title
+        siteTitle
       }
     }
     mdx(id: { eq: $id }) {
       id
-      excerpt(pruneLength: 160)
+      excerpt(pruneLength: 120)
       body
       frontmatter {
         title
@@ -143,6 +160,9 @@ export const pageQuery = graphql`
         description
         heroImage {
           childImageSharp {
+            fluid {
+              src
+            }
             gatsbyImageData(
               width: 600
               placeholder: BLURRED
@@ -155,11 +175,6 @@ export const pageQuery = graphql`
           type
           href
         }
-      }
-      tableOfContents(maxDepth: 3)
-      headings {
-        value
-        depth
       }
     }
   }

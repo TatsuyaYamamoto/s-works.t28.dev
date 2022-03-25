@@ -1,6 +1,8 @@
 module.exports = {
   siteMetadata: {
-    siteUrl: "https://s-works.t28.dev",
+    siteTitle: `s-works`,
+    siteUrl: `https://s-works.t28.dev`,
+    siteDescription: `s-worksは様々な企画を実現するために、Webアプリを開発します。`,
   },
   plugins: [
     `@chakra-ui/gatsby-plugin`,
