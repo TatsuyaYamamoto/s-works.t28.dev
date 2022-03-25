@@ -1,26 +1,23 @@
 import React, { FC } from "react"
 
-import { css, Global } from "@emotion/react"
+import { css } from "@emotion/react"
 import { Center, Box } from "@chakra-ui/react"
 
 import Seo from "../components/Seo"
 import BrandLogo from "../components/BrandLogo"
 import DeliverablesSection from "../components/DeliverablesSection"
 import FooterSection from "../components/FooterSection"
+import Layout from "../components/Layout"
 
 const IndexPage: FC = () => {
   return (
-    <>
-      <Seo pageTitle="Top" />
-      <Global
-        styles={css`
-          body {
-            min-height: 100vh;
-            background-color: #fff3e0;
-          }
-        `}
-      />
-      <Center height="100vh">
+    <Layout>
+      <Seo />
+      <Center
+        minHeight="100%"
+        border={"solid 15px var(--color-orange)"}
+        boxSizing={"border-box"}
+      >
         <Box
           css={css`
             margin: 20px;
@@ -34,7 +31,7 @@ const IndexPage: FC = () => {
       </Center>
       <DeliverablesSection />
       <FooterSection />
-    </>
+    </Layout>
   )
 }
 

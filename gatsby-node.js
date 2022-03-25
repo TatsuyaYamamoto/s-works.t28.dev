@@ -1,7 +1,16 @@
-/**
- * Implement Gatsby's Node APIs in this file.
- *
- * See: https://www.gatsbyjs.com/docs/node-apis/
- */
+const achievementsMdx = require("./src/gatsby/achievements-mdx")
 
-// You can delete this file if you're not using it
+/** @param {import("gatsby").CreatePagesArgs} args */
+exports.createPages = async args => {
+  await achievementsMdx.createPages(args)
+}
+
+/** @param {import('gatsby').CreateNodeArgs} args */
+exports.onCreateNode = args => {
+  achievementsMdx.onCreateNode(args)
+}
+
+/** @param {import('gatsby').CreateSchemaCustomizationArgs} args */
+exports.createSchemaCustomization = args => {
+  achievementsMdx.createSchemaCustomization(args)
+}

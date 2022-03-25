@@ -3,14 +3,31 @@ module.exports = {
     siteUrl: "https://s-works.t28.dev",
   },
   plugins: [
+    `@chakra-ui/gatsby-plugin`,
+    `gatsby-plugin-next-seo`,
     {
-      resolve: "@chakra-ui/gatsby-plugin",
+      resolve: `gatsby-source-filesystem`,
       options: {
-        resetCSS: true,
-        isUsingColorMode: true,
+        path: `${__dirname}/contents/achievements`,
       },
     },
-    `gatsby-plugin-next-seo`,
+    {
+      resolve: `gatsby-plugin-mdx`,
+      options: {
+        extensions: [`.mdx`, `.md`],
+        gatsbyRemarkPlugins: [
+          {
+            resolve: `gatsby-remark-images`,
+            options: {
+              maxWidth: 600,
+              wrapperStyle: `
+                box-shadow: 0 0px 5px 2px rgb(240 240 250);
+              `,
+            },
+          },
+        ],
+      },
+    },
     `gatsby-plugin-image`,
     {
       resolve: `gatsby-source-filesystem`,

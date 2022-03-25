@@ -1,101 +1,104 @@
 /** @jsx jsx */
-import React, { FC, useEffect, useState } from "react"
-
+import { FC, useEffect, useState } from "react"
+import { useStaticQuery, graphql, Link } from "gatsby"
+import { GatsbyImage, getImage, IGatsbyImageData } from "gatsby-plugin-image"
 import { css, jsx, keyframes } from "@emotion/react"
 import {
   Box,
-  VStack,
-  StackDivider,
+  Flex,
   Heading,
   Text,
   Stack,
-  Link,
-  Icon,
+  useMediaQuery,
 } from "@chakra-ui/react"
 import { FaTwitter as TwitterIcon } from "react-icons/fa"
 import { FiExternalLink as ExternalLinkIcon } from "react-icons/fi"
 
-const linkIcons = {
-  external: ExternalLinkIcon,
-  twitter: TwitterIcon,
-} as const
-
-const ResultListItem: FC<{
-  title: string
-  description: string
-  links: { label: string; href: string; type: "external" | "twitter" }[]
-}> = ({ title, description, links }) => {
-  return (
-    <Box p={5} shadow="md" borderWidth="1px">
-      <Heading fontSize="xl">{title}</Heading>
-      <Text mt={4}>{description}</Text>
-
-      <VStack mt={4} spacing={2} align="stretch">
-        {links.map(({ label, href, type }) => (
-          <Link href={href} isExternal>
-            {label} <Icon as={linkIcons[type]} mx="2px" />
-          </Link>
-        ))}
-      </VStack>
-    </Box>
-  )
-}
-
 const ResultList = () => {
+  const [isLargerThan600] = useMediaQuery("(min-width: 600px)")
+  const {
+    allMdx: { nodes },
+  } = useStaticQuery(query)
+
   return (
     <Stack spacing={8}>
-      <ResultListItem
-        title="ラブライブ！除夜の鐘"
-        description="ラブライブ！シリーズの年末企画のためのウェブアプリを開発しました。"
-        links={[
-          {
-            label: "企画告知ツイート",
-            href: "https://twitter.com/LoveLive_staff/status/1476768943352463362?s=20",
-            type: "twitter",
-          },
-          {
-            label: "イベントサイト",
-            href: "https://lovelive-app.jp/joya_no_kane",
-            type: "external",
-          },
-        ]}
-      />
-      <ResultListItem
-        title="みんなで作るL!L!L!届けて！あなたのメッセージ♡"
-        description="ラブライブ！虹ヶ咲学園スクールアイドル同好会 4thライブ連動企画のためのウェブアプリを開発しました。"
-        links={[
-          {
-            label: "企画告知ツイート",
-            href: "https://twitter.com/LoveLive_staff/status/1473941452455432194?s=20",
-            type: "twitter",
-          },
-          {
-            label: "イベントサイト",
-            href: "https://lovelive-app.jp/tokimeki_message",
-            type: "external",
-          },
-        ]}
-      />
+      {nodes.map(({ fields, excerpt, frontmatter }: any) => (
+        <Link key={fields.slug} to={fields.slug}>
+          <Flex
+            shadow="md"
+            backgroundColor={"#ffffff"}
+            flexDirection={isLargerThan600 ? "row" : "column"}
+          >
+            <Box p={5} flex={1}>
+              <Heading fontSize="xl">{frontmatter.title}</Heading>
+              <Text mt={4}>{frontmatter.date}</Text>
+              <Text mt={4}>{frontmatter.description || excerpt}</Text>
+            </Box>
+            <GatsbyImage
+              image={getImage(frontmatter.heroImage) as IGatsbyImageData}
+              alt={"article hero image"}
+            />
+          </Flex>
+        </Link>
+      ))}
     </Stack>
   )
 }
 
 const DeliverablesSection: FC = () => {
   return (
-    <Box as="section" maxWidth={900} margin="0 auto" paddingX={4}>
-      <h2
-        css={css`
-          color: #ffc69e;
-          font-size: 60px;
-          font-family: sans-serif;
-          font-weight: 600;
-        `}
-      >
-        {`Deliverables`}
-      </h2>
-      <ResultList />
+    <Box
+      as="section"
+      backgroundColor={"var(--color-orange)"}
+      paddingX={"15px"}
+      paddingY={8}
+    >
+      <Box maxWidth={800} margin="0 auto">
+        <h2
+          css={css`
+            color: #ffffff;
+            font-size: 60px;
+            font-family: sans-serif;
+            font-weight: 600;
+          `}
+        >
+          {`Deliverables`}
+        </h2>
+        <ResultList />
+      </Box>
     </Box>
   )
 }
 
 export default DeliverablesSection
+
+const query = graphql`
+  {
+    allMdx(
+      sort: { fields: [frontmatter___date], order: DESC }
+      filter: { fields: { contentType: { eq: "achievements" } } }
+    ) {
+      nodes {
+        excerpt
+        fields {
+          slug
+        }
+        frontmatter {
+          title
+          date(formatString: "YYYY/MM/DD")
+          title
+          description
+          heroImage {
+            childImageSharp {
+              gatsbyImageData(
+                width: 300
+                placeholder: BLURRED
+                formats: [AUTO, WEBP, AVIF]
+              )
+            }
+          }
+        }
+      }
+    }
+  }
+`
