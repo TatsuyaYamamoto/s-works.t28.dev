@@ -1,21 +1,14 @@
 /** @jsx jsx */
-import { FC, useEffect, useState } from "react"
+import { FC } from "react"
 import { useStaticQuery, graphql, Link } from "gatsby"
 import { GatsbyImage, getImage, IGatsbyImageData } from "gatsby-plugin-image"
-import { css, jsx, keyframes } from "@emotion/react"
-import {
-  Box,
-  Flex,
-  Heading,
-  Text,
-  Stack,
-  useMediaQuery,
-} from "@chakra-ui/react"
-import { FaTwitter as TwitterIcon } from "react-icons/fa"
-import { FiExternalLink as ExternalLinkIcon } from "react-icons/fi"
+import { css, jsx } from "@emotion/react"
+import { Box, Flex, Heading, Text, Stack } from "@chakra-ui/react"
+
+import { useBreakpoint } from "./useBreakpoint"
 
 const ResultList = () => {
-  const [isLargerThan600] = useMediaQuery("(min-width: 600px)")
+  const { isTabletOrMore } = useBreakpoint()
   const {
     allMdx: { nodes },
   } = useStaticQuery(query)
@@ -27,7 +20,7 @@ const ResultList = () => {
           <Flex
             shadow="md"
             backgroundColor={"#ffffff"}
-            flexDirection={isLargerThan600 ? "row" : "column"}
+            flexDirection={isTabletOrMore ? "row" : "column"}
           >
             <Box p={5} flex={1}>
               <Heading fontSize="xl">{frontmatter.title}</Heading>
@@ -46,6 +39,9 @@ const ResultList = () => {
 }
 
 const DeliverablesSection: FC = () => {
+  const { isTabletOrMore } = useBreakpoint()
+  const headingFontSize = isTabletOrMore ? 80 : 40
+
   return (
     <Box
       as="section"
@@ -57,7 +53,7 @@ const DeliverablesSection: FC = () => {
         <h2
           css={css`
             color: #ffffff;
-            font-size: 60px;
+            font-size: ${headingFontSize}px;
             font-family: sans-serif;
             font-weight: 600;
           `}

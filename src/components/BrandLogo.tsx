@@ -2,7 +2,9 @@
 import React, { FC, useEffect, useState } from "react"
 
 import { css, jsx, keyframes } from "@emotion/react"
+
 import { ReactComponent as LogoSvg } from "../images/s-works-logo.svg"
+import { useBreakpoint } from "./useBreakpoint"
 
 const surfaceText = keyframes`
   from {
@@ -43,10 +45,13 @@ const surfaceSvg = keyframes`
 
 const BrandLogo: FC = () => {
   const [show, setShow] = useState(false)
+  const { isTabletOrMore } = useBreakpoint()
 
   useEffect(() => {
     setTimeout(() => setShow(true), 200)
   }, [])
+
+  const iconAndFontSize = isTabletOrMore ? 100 : 50
 
   return (
     <h1
@@ -60,11 +65,8 @@ const BrandLogo: FC = () => {
       <LogoSvg
         style={{ fill: "transparent" }}
         css={css`
-          width: clamp(20px, 30vw, 100px);
-          height: clamp(20px, 30vw, 100px);
-
-          @media screen and (max-width: 480px) {
-          }
+          width: ${iconAndFontSize}px;
+          height: ${iconAndFontSize}px;
 
           ${show &&
           css`
@@ -75,7 +77,7 @@ const BrandLogo: FC = () => {
       <span
         css={css`
           color: transparent;
-          font-size: clamp(20px, 30vw, 100px);
+          font-size: ${iconAndFontSize}px;
           font-family: sans-serif;
           font-weight: 600;
 
