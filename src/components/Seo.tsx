@@ -36,13 +36,13 @@ const Seo: VFC<Props> = ({ ogpTitle, ogpImagePath, ...otherProps }) => {
       // titleTemplateを使った謎の上書きをplugin側がするため、自前で設定
       // https://github.com/ifiokjr/gatsby-plugin-next-seo/blob/master/src/meta/base-seo.tsx#L325-L332
       title: ogpTitle ?? otherProps.title ?? siteTitle,
-      images: ogpImagePath
-        ? [
-            {
-              url: `${siteUrl}${ogpImagePath}`,
-            },
-          ]
-        : undefined,
+      images: [
+        {
+          url: ogpImagePath
+            ? `${siteUrl}${ogpImagePath}`
+            : `${siteUrl}/ogp.jpg`,
+        },
+      ],
     },
     ...otherProps,
   }
