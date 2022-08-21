@@ -1,4 +1,7 @@
+/** @jsx jsx */
 import React, { FC, useEffect, useRef } from "react"
+
+import { css, jsx } from "@emotion/react"
 
 const EmbeddedTweet: FC<{ html: string }> = props => {
   const containerRef = useRef(null)
@@ -18,7 +21,15 @@ const EmbeddedTweet: FC<{ html: string }> = props => {
   }, [])
 
   return (
-    <div ref={containerRef} dangerouslySetInnerHTML={{ __html: props.html }} />
+    <div
+      ref={containerRef}
+      dangerouslySetInnerHTML={{ __html: props.html }}
+      css={css`
+        .twitter-tweet {
+          margin: 0 auto;
+        }
+      `}
+    />
   )
 }
 
