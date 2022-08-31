@@ -21,7 +21,7 @@ module.exports = {
           {
             resolve: `gatsby-remark-images`,
             options: {
-              maxWidth: 600,
+              maxWidth: 1200,
               wrapperStyle: `
                 box-shadow: 0 0px 5px 2px rgb(240 240 250);
               `,
