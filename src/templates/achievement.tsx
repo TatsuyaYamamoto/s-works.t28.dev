@@ -94,6 +94,7 @@ const AchievementPageTemplate: FC<PageProps<any>> = ({ data }) => {
         title={`${title} | ${siteTitle}`}
         description={excerpt}
         ogpImagePath={heroImage.childImageSharp.fluid.src}
+        twitter={{ cardType: "summary_large_image" }}
       />
       <Global styles={pageStyle} />
       <Box
