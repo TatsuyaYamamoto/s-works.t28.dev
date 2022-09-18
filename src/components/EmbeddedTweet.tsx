@@ -10,7 +10,7 @@ const EmbeddedTweet: FC<{ html: string }> = props => {
     const id = "twitter-widgets-js"
     if (document.getElementById(id)) {
       // @ts-ignore
-      window.twttr.widgets.load(containerRef.current)
+      window.twttr?.widgets.load(containerRef.current)
       return
     }
     const script = document.createElement("script")
