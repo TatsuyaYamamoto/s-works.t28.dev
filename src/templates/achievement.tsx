@@ -5,7 +5,7 @@ import { MDXRenderer } from "gatsby-plugin-mdx"
 import { GatsbyImage, getImage, IGatsbyImageData } from "gatsby-plugin-image"
 
 import { jsx, css, Global } from "@emotion/react"
-import { Stack, Box, Icon, Heading, Button } from "@chakra-ui/react"
+import { Wrap, WrapItem, Box, Icon, Heading, Button } from "@chakra-ui/react"
 import { FaTwitter as TwitterIcon } from "react-icons/fa"
 import { FiExternalLink as ExternalLinkIcon } from "react-icons/fi"
 
@@ -118,16 +118,17 @@ const AchievementPageTemplate: FC<PageProps<any>> = ({ data }) => {
               <Box marginTop={3} color={"#575757"}>
                 <time>{date}</time>
               </Box>
-              <Stack marginTop={3} direction="row" spacing={4}>
+              <Wrap marginTop={3} direction="row" gap={2}>
                 {links.map(({ href, label, type }, i) => (
-                  <FrontmatterLinkButton
-                    key={i}
-                    href={href}
-                    type={type}
-                    label={label}
-                  />
+                  <WrapItem key={i}>
+                    <FrontmatterLinkButton
+                      href={href}
+                      type={type}
+                      label={label}
+                    />
+                  </WrapItem>
                 ))}
-              </Stack>
+              </Wrap>
             </Box>
             <hr />
             <Box as={"article"}>
